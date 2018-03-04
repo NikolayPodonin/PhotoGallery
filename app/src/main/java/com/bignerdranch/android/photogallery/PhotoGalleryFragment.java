@@ -132,10 +132,19 @@ public class PhotoGalleryFragment extends Fragment{
 
         @Override
         public void onBindViewHolder(@NonNull PhotoHolder holder, int position) {
+            loadSurrounders(position);
             GalleryItem galleryItem = mGalleryItems.get(position);
             Drawable placeholder = getResources().getDrawable(R.drawable.bill_up_close);
             holder.bindDrawable(placeholder);
             mThumbnailDownloader.queueThumbnail(holder, galleryItem.getUrl());
+        }
+
+        private void loadSurrounders(int position){
+            int lowPosition = position - 10 < 0 ? 0 : position - 10;
+            int highPosition = position + 10 >= mGalleryItems.size() ? mGalleryItems.size() : position + 10;
+            for(int i = lowPosition; i < highPosition; i++){
+                mThumbnailDownloader.queueThumbnailPreDownload(mGalleryItems.get(i).getUrl());
+            }
         }
 
         @Override
