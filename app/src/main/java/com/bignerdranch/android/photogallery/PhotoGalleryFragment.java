@@ -1,6 +1,5 @@
 package com.bignerdranch.android.photogallery;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -21,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +28,7 @@ import java.util.List;
  * Created by Ybr on 04.03.2018.
  */
 
-public class PhotoGalleryFragment extends Fragment{
+public class PhotoGalleryFragment extends VisibleFragment{
     private static final String TAG = "PhotoGalleryFragment";
 
     private RecyclerView mPhotoRecyclerView;
