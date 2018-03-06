@@ -1,5 +1,6 @@
 package com.bignerdranch.android.photogallery;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -8,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -180,16 +180,29 @@ public class PhotoGalleryFragment extends VisibleFragment{
         }
     }
 
-    private class PhotoHolder extends RecyclerView.ViewHolder{
+    private class PhotoHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
         private ImageView mItemImageView;
+        private GalleryItem mGalleryItem;
 
         public PhotoHolder(View itemView) {
             super(itemView);
             mItemImageView = (ImageView) itemView.findViewById(R.id.item_image_view);
+            mItemImageView.setOnClickListener(this);
         }
 
         public void bindDrawable(Drawable drawable) {
             mItemImageView.setImageDrawable(drawable);
+        }
+
+        public void bindGalleryItem(GalleryItem galleryItem){
+            mGalleryItem = galleryItem;
+        }
+
+        @Override
+        public void onClick(View view) {
+//            Intent intent = new Intent(Intent.ACTION_VIEW, mGalleryItem.getPhotoPageUri());
+            Intent intent = PhotoPageActivity.newIntent(getActivity(), mGalleryItem.getPhotoPageUri());
+            startActivity(intent);
         }
     }
 
@@ -212,6 +225,7 @@ public class PhotoGalleryFragment extends VisibleFragment{
         public void onBindViewHolder(@NonNull PhotoHolder holder, int position) {
             loadSurrounders(position);
             GalleryItem galleryItem = mGalleryItems.get(position);
+            holder.bindGalleryItem(galleryItem);
             Drawable placeholder = getResources().getDrawable(R.drawable.bill_up_close);
             holder.bindDrawable(placeholder);
             mThumbnailDownloader.queueThumbnail(holder, galleryItem.getUrl());
