@@ -67,6 +67,11 @@ public class PhotoPageFragment extends VisibleFragment {
             }
         });
 
+
         return view;
+    }
+
+    public WebView getWebView() {
+        return mWebView;
     }
 }
